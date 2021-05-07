@@ -7,10 +7,12 @@ from deep_blue_sky import DeepBlueSky
 
 client = DeepBlueSky()
 
+client.default_properties['command-prefix'] = '-'
+
 @client.event
 async def on_ready():
     client.logger.info(f'Logged in as {client.user}')
-    game = discord.Game('--help')
+    game = discord.Game('-help')
     await client.change_presence(status=discord.Status.online, activity=game)
 
 @client.event
