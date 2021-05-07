@@ -1,0 +1,12 @@
+[Unit]
+Description=Ranger Discord Bot
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Type=simple
+ExecStart=/home/ubuntu/python/discord/ranger/ranger.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
