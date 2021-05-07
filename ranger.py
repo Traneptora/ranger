@@ -7,7 +7,7 @@ from deep_blue_sky import DeepBlueSky
 
 client = DeepBlueSky()
 
-client.default_properties['command-prefix'] = '-'
+client.default_properties['command_prefix'] = '-'
 
 @client.event
 async def on_ready():
