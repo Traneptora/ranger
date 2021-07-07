@@ -17,6 +17,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    await client.handle_message(message, extra_wikis='https://azurlane.koumakan.jp/w/index.php')
+    await client.handle_message(message, extra_wikis=['https://azurlane.koumakan.jp/w/index.php'])
 
 client.run()
