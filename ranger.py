@@ -8,7 +8,7 @@ from deepbluesky import DeepBlueSky
 client = DeepBlueSky()
 
 client.default_properties['command_prefix'] = '-'
-client.extra_wikis.add('https://azurlane.koumakan.jp/w/index.php')
+client.extra_wikis.append('https://azurlane.koumakan.jp/w/index.php')
 
 @client.event
 async def on_ready():
