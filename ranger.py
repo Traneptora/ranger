@@ -8,6 +8,7 @@ from deepbluesky import DeepBlueSky
 client = DeepBlueSky()
 
 client.default_properties['command_prefix'] = '-'
+client.extra_wikis.add('https://azurlane.koumakan.jp/w/index.php')
 
 @client.event
 async def on_ready():
@@ -17,6 +18,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    await client.handle_message(message, extra_wikis=['https://azurlane.koumakan.jp/w/index.php'])
+    await client.handle_message(message)
 
 client.run()
