@@ -136,3 +136,5 @@ oauth_token.*
 *.log
 feed/
 storage/
+storage.bak/
+
