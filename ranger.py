@@ -72,6 +72,7 @@ async def post_file_created0(src, prefix):
     metadata["message-id"] = message.id
     with open(disc_file, 'w') as jsonfile:
         json.dump(metadata, jsonfile)
+    os.unlink(f'{name}.meta.json')
     os.unlink(f'{prefix}{src}')
 
 def post_file_created(src, prefix=''):
