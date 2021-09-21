@@ -6,8 +6,6 @@ import os
 import time
 
 import discord
-import watchdog.events as wevents
-import watchdog.observers as wobservers
 
 from deepbluesky import DeepBlueSky
 
@@ -18,9 +16,9 @@ client.extra_wikis.append('https://azurlane.koumakan.jp/w/index.php')
 
 @client.event
 async def on_ready():
-    for filename in os.listdir(pr_data_dir):
-        if filename.endswith('.meta.post'):
-            post_file_created(filename, prefix=f'{pr_data_dir}/')
+    client.logger.info(f'Logged in as {client.user}')
+    game = discord.Game('-help')
+    await client.change_presence(status=discord.Status.online, activity=game)
 
 @client.event
 async def on_message(message):
