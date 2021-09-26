@@ -201,12 +201,16 @@ class ShipInfo():
 skill_buffs: Dict[str, BuffTable] = {
     'Abyssal Banquet': BuffTableSimple(buffset=BuffSet(injure_ratio=0.85),
         skill_info='If this ship is equipped with a Normal or AP main gun, decrease this ship’s damage taken by 15.0% and increase this ship’s critical rate by 12.0%.'),
-    'All Out Assault - Takao Class II': BuffTableRegular(proc_every=300, proc_rate=0, proc_first=18.0, proc_first_rate=1.0, duration=300, buffset=BuffSet(evasion_rate=0.10),
+    'All Out Assault - Takao Class II': BuffTableRegular(proc_every=300.0, proc_rate=0.0, proc_first=18.0, proc_first_rate=1.0, duration=300, buffset=BuffSet(evasion_rate=0.10),
         skill_info='Every 4 shots from the main gun, trigger All Out Assault - Takao Class II. The first time this ship fires its All Out Assault, increases this ship’s Evasion Rate by 10%, activating only once. [This calculation assumes it triggers 18s into the fight.]'),
     'An Shan Name Ship': BuffTableSimple(buffset=BuffSet(eva=0.10),
         skill_info='Increase Accuracy and FP by 25.0% and EVA by 10.0% for all An Shan-class destroyers.'),
+    'Before the Lightning’s Flash': BuffTableRegular(proc_every=20.0, proc_rate=1.0, proc_first=0.0, duration=10.0, buffset=BuffSet(injure_ratio=0.85),
+        skill_info='At the start of the battle, and when this ship’s Torpedoes finish reloading: for 10s, decrease this ship’s damage taken by 15.0%, increase her damage dealt with Torpedoes by 12.0%, and increases your Vanguard’s Speed by 3.'),
     'Bilibili Mascot Girl - 22': BuffTableSimple(buffset=BuffSet(eva=0.35),
         skill_info='When sortied as main tank in the same fleet as 33, increase both 22’s and 33’s EVA by 35.0%.'),
+    'Body and Soul+': BuffTableRegular(proc_every=20.0, proc_rate=1.0, proc_first=0.0, duration=6.0, buffset=BuffSet(eva=0.12),
+        skill_info='Increases this ship’s torpedo critical rate by 40.0% and torpedo critical damage by 65.0%. Additionally, when this ship fires her torpedoes: increase this ship’s EVA by 12.0% for 6s.'),
     'Blazing Choreography': BuffTableSimple(buffset=BuffSet(eva=0.15),
         skill_info='At the start of the battle, if there is a CV, CVL, or Muse ship in the same fleet, increase this ship’s EVA by 15% and increase your Vanguard’s AA by 15%.'),
     'Death Raid': BuffTableSimple(skill_info='Death Raid is assumed to not activate.'),
@@ -375,7 +379,7 @@ ships: Dict[str, ShipInfo] = {
     'Honolulu': ShipInfo(hitpoints=3470, def_luck=50, def_eva=90, def_level=120),
     'Houston': ShipInfo(hitpoints=3445, def_luck=49, def_eva=53, def_level=120),
     'Hunter': ShipInfo(hitpoints=1370, def_luck=24, def_eva=210, def_level=120),
-    'Ibuki': ShipInfo(hitpoints=4793, def_luck=0, def_eva=86, def_level=120),
+    'Ibuki': ShipInfo(hitpoints=4793, def_luck=15, def_eva=86, def_level=120, skill_list=['Body and Soul+']),
     'Icarus': ShipInfo(hitpoints=1669, def_luck=70, def_eva=210, def_level=120),
     'Ikazuchi': ShipInfo(hitpoints=1747, def_luck=52, def_eva=194, def_level=120),
     'Inazuma': ShipInfo(hitpoints=1747, def_luck=57, def_eva=194, def_level=120),
@@ -511,7 +515,7 @@ ships: Dict[str, ShipInfo] = {
     'Sheffield': ShipInfo(hitpoints=3796, def_luck=78, def_eva=100, def_level=120),
     'Sheffield µ': ShipInfo(hitpoints=3559, def_luck=78, def_eva=100, def_level=120),
     'Shigure': ShipInfo(hitpoints=1928, def_luck=84, def_eva=210, def_level=120),
-    'Shimakaze': ShipInfo(hitpoints=2362, def_luck=41, def_eva=232, def_level=120),
+    'Shimakaze': ShipInfo(hitpoints=2362, def_luck=41, def_eva=232, def_level=120, skill_list=['Before the Lightning’s Flash']),
     'Shirakami Fubuki': ShipInfo(hitpoints=1830, def_luck=69, def_eva=191, def_level=120),
     'Shiranui': ShipInfo(hitpoints=1908, def_luck=25, def_eva=212, def_level=120),
     'Shiratsuyu': ShipInfo(hitpoints=1712, def_luck=41, def_eva=190, def_level=120),
@@ -582,15 +586,25 @@ ships: Dict[str, ShipInfo] = {
 
 meta_boss = Stage(stage_length=80, formation_bonus=0.0, atk_hit=105, atk_luck=20)
 taihou_boss = Stage(stage_length=90, formation_bonus=0.30, atk_hit=75, atk_luck=25)
+taihou_circular = Stage(stage_length=90, formation_bonus=0.00, atk_hit=75, atk_luck=25)
 
 rudder = Equip(extra_hp=60, extra_eva=40, buff_table=BuffTableRegular(proc_every=20.0, proc_rate=0.30, duration=2.0, buffset=BuffSet(perfect_dodge=True)))
 beaver = Equip(extra_hp=75, extra_eva=35)
 toolbox = Equip(extra_hp=500, extra_eva=0, healing_list=[ExtraHeal(heal_magnitude=0.01, heal_every=15.0)])
 manjuu = Equip(extra_hp=550, extra_eva=0)
 
-print(f'portkai rudder/beaver: {int(ships["Portland"].ehp(taihou_boss, [rudder, beaver]))}')
-print(f'seattle rudder/box: {int(ships["Seattle"].ehp(taihou_boss, [rudder, toolbox]))}')
-print(f'takao rudder/beaver: {int(ships["Takao"].ehp(taihou_boss, [rudder, beaver]))}')
-print(f'pamiat rudder/box: {int(ships["Pamiat Merkuria"].ehp(taihou_boss, [rudder, toolbox]))}')
-print(f'tashkent rudder/box: {int(ships["Tashkent"].ehp(taihou_boss, [rudder, toolbox]))}')
-print(f'tashkent manjuu/box: {int(ships["Tashkent"].ehp(taihou_boss, [manjuu, toolbox]))}')
+# print(f'portkai rudder/beaver: {int(ships["Portland"].ehp(taihou_boss, [rudder, beaver]))}')
+# print(f'seattle rudder/box: {int(ships["Seattle"].ehp(taihou_boss, [rudder, toolbox]))}')
+# print(f'takao rudder/beaver: {int(ships["Takao"].ehp(taihou_boss, [rudder, beaver]))}')
+# print(f'pamiat rudder/box: {int(ships["Pamiat Merkuria"].ehp(taihou_boss, [rudder, toolbox]))}')
+# print(f'tashkent rudder/box: {int(ships["Tashkent"].ehp(taihou_boss, [rudder, toolbox]))}')
+# print(f'tashkent manjuu/box: {int(ships["Tashkent"].ehp(taihou_boss, [manjuu, toolbox]))}')
+print(f'ibuki rudder/toolbox: {int(ships["Ibuki"].ehp(taihou_circular, [rudder, toolbox]))}')
+print(f'ibuki rudder/oxytorp: {int(ships["Ibuki"].ehp(taihou_circular, [rudder]))}')
+print(f'ibuki toolbox/oxytorp: {int(ships["Ibuki"].ehp(taihou_circular, [toolbox]))}')
+print(f'ibuki oxytorp/oxytorp: {int(ships["Ibuki"].ehp(taihou_circular, []))}')
+
+print(f'shimakaze dress/toolbox: {int(ships["Shimakaze"].ehp(taihou_circular, [manjuu, toolbox]))}')
+print(f'shimakaze rudder/toolbox: {int(ships["Shimakaze"].ehp(taihou_circular, [rudder, toolbox]))}')
+print(f'shimakaze oxytorp/toolbox: {int(ships["Shimakaze"].ehp(taihou_circular, [toolbox]))}')
+print(f'shimakaze oxytorp/oxytorp: {int(ships["Shimakaze"].ehp(taihou_circular, []))}')
