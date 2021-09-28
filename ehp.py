@@ -609,3 +609,7 @@ manjuu = Equip(extra_hp=550, extra_eva=0)
 # print(f'shimakaze rudder/toolbox: {int(ships["Shimakaze"].ehp(taihou_circular, [rudder, toolbox]))}')
 # print(f'shimakaze oxytorp/toolbox: {int(ships["Shimakaze"].ehp(taihou_circular, [toolbox]))}')
 # print(f'shimakaze oxytorp/oxytorp: {int(ships["Shimakaze"].ehp(taihou_circular, []))}')
+
+# print(f'helena rudder/toolbox: {int(ships["Helena"].ehp(taihou_boss, [rudder, toolbox]))}')
+# print(f'cleve rudder/toolbox: {int(ships["Cleveland"].ehp(taihou_boss, [rudder, toolbox]))}')
+# print(f'allen rudder/toolbox: {int(ships["Allen M. Sumner"].ehp(taihou_boss, [rudder, toolbox]))}')
